@@ -3,6 +3,7 @@ import React from 'react';
 import {createAppContainer} from 'react-navigation';
 import {createDrawerNavigator} from 'react-navigation-drawer';
 import {Dimensions} from 'react-native';
+import { useWindowDimensions } from 'react-native';
 
 import {Feather} from '@expo/vector-icons';
 
@@ -11,10 +12,12 @@ import {
   ListScreen,
   ReportScreen,
   StatisticScreen,
-  LogoutScreen
-} from './';
+  MailScreen,
+  LogoutScreen,
+} from './index';
 
 import Sidebar from './Sidebar';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 
 const DrawerNavigator = createDrawerNavigator(
@@ -47,13 +50,20 @@ const DrawerNavigator = createDrawerNavigator(
         drawerIcon: ({tintColor}) => <Feather name="trending-up" size={16} color={tintColor}/>
       }
     },
-    LogoutScreen : {
+    MailScreen : {
+      screen : MailScreen,
+      navigationOptions : {
+        title: "Mail",
+        drawerIcon: ({tintColor}) => <Feather name="mail" size={16} color={tintColor}/>
+      },
+    },
+    LogoutSreen : {
       screen : LogoutScreen,
       navigationOptions : {
         title: "Logout",
         drawerIcon: ({tintColor}) => <Feather name="log-out" size={16} color={tintColor}/>
       }
-    },
+    }
   },
   {
     contentComponent: props => <Sidebar {...props} />,
@@ -61,7 +71,7 @@ const DrawerNavigator = createDrawerNavigator(
     drawerWidth: Dimensions.get('window').width * 0.3,
 
     contentOptions: {
-      activeBackgroundColor: 'rgba(212, 118, 207, 0.2)',
+      activeBackgroundColor: '#deb5f7',
       activeTintColor: '#53115B',
       itemsContainerStyle: {
         marginTop: 16,
@@ -74,4 +84,15 @@ const DrawerNavigator = createDrawerNavigator(
   }
 );
 
-export default createAppContainer(DrawerNavigator);
+const Drawer = createAppContainer(DrawerNavigator);
+
+export default function DrawerNavigation() {
+
+  const dimensions = Dimensions.get('window').width;
+
+  const isLargeScreen = dimensions.width >= 768;
+
+  return (
+    <Drawer/>
+  );
+};

@@ -1,103 +1,145 @@
 import React from 'react';
 import {Image, TextInput, StyleSheet, Text, View, Dimensions, TouchableOpacity } from 'react-native';
 import * as WebBrowser from 'expo-web-browser';
+
 import { AntDesign } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import logo from '../../assets/logo.png';
 
 
-export default function Login() {
-    const _handleOpenWithWebBrowser = () => {
-        WebBrowser.openBrowserAsync('https://expo.io');
-      };
-    
+export default class Home extends React.Component {
 
-  return (
-    <View style={{display:'flex', flexDirection:'row'}}>
+    state = {
+        userId: '',
+        password: '',
+        isFocusd: false,
+    }
 
+    onFocusChange = () => {
+        this.setState({isFocusd: true});
+    }
 
-        <View style={styles.containerLeft}>
-            <Text style={{fontSize:35, padding:15, color:'white', opacity:0.9}}>Follow</Text>
-            <View>
-                <View style={styles.followList}>
-                    <Ionicons name="md-people" size={24} color="white" />
-                    <Text style={styles.followText}>Meetup</Text>
-                </View>
+    checkLogin() {
+        const {userId, password} = this.state;
+        if(userId != '' && password != '') {
+            this.props.navigation.navigate('Navigator')
+        } else return alert('fail');
+    }
 
-                <View style={styles.followList}>
-                    <AntDesign name="github" size={24} color="white" />
-                    <Text style={styles.followText}>Github</Text>
-                </View>
-
-                <View style={styles.followList}>
-                    <AntDesign name="youtube" size={24} color="white" />
-                    <Text style={styles.followText}>Youtube</Text>
-                </View>
-
-                <View style={styles.followList}>
-                    <AntDesign name="medium-monogram" size={24} color="white" />
-                    <Text style={styles.followText}>Medium</Text>
-                </View>
-            </View>
-        </View>
-
-
-        <View style={styles.containerRight}>
-
-            <View style={styles.loginBox}>
-                <Image source={logo} style={styles.logo}/>
-                <Text style={styles.title}>
-                    dooboolab
-                </Text>
-
-                <View style={styles.inputStyle}>
-                    <AntDesign name="mail" size={15} color="black" style={{opacity:0.7, padding:1}} />
-                    <TextInput 
-                        style={styles.inputText}
-                        placeholder={'Email'}
-                        placeholderTextColor={'#000000'}
-                    />
-                </View>
-
-                <View style={styles.inputStyle}>
-                    <AntDesign name="lock1" size={15} color="black" style={{opacity:0.7, padding:1}} />
-                    <TextInput 
-                        style={styles.inputText}
-                        placeholder={'Password'}
-                        placeholderTextColor={'#000000'}
-                    />
-                </View>
-
-                <TouchableOpacity style={styles.btnLogin}>
-                    <Text style={{fontSize:15, color: '#fff5fe'}}>
-                        Get started
-                    </Text>
-                </TouchableOpacity>
+    render() {
+        return (
+            <View style={{display:'flex', flexDirection:'row'}}>
                 
-                <TouchableOpacity>
-                    <Text style={{fontSize:12, borderBottomWidth:1, marginBottom:30}}>
-                        비밀번호를 잃어버리셨나요?
-                    </Text>
-                </TouchableOpacity>
-            
-                <View style = {styles.lineStyle} />
+        
+        
+                <View style={styles.containerLeft}>
+                    <Text style={{fontSize:35, padding:15, color:'white'}}>Follow</Text>
+                    <View>
+                        <TouchableOpacity style={styles.followList} onPress={_=>this.linkToMeetUp()}>
+                            <Ionicons name="md-people" size={24} color="white" />
+                            <Text style={styles.followText}>Community</Text>
+                        </TouchableOpacity>
+        
+                        <TouchableOpacity style={styles.followList} onPress={_=>this.linkToGitHub()}>
+                            <AntDesign name="github" size={24} color="white" />
+                            <Text style={styles.followText}>Github</Text>
+                        </TouchableOpacity>
+        
+                        <TouchableOpacity style={styles.followList} onPress={_=>this.linkToYoutube()}>
+                            <AntDesign name="youtube" size={24} color="white" />
+                            <Text style={styles.followText}>Youtube</Text>
+                        </TouchableOpacity>
+        
+                        <TouchableOpacity style={styles.followList} onPress={_=>this.linkToMedium()}>
+                            <AntDesign name="medium-monogram" size={24} color="white" />
+                            <Text style={styles.followText}>Medium</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+        
+        
+                <View style={styles.containerRight}>
+        
+                    <View style={styles.loginBox}>
+                        <Image source={logo} style={styles.logo}/>
+                        <Text style={styles.title}>
+                            dooboolab
+                        </Text>
+        
+                        <View 
+                        onFocus={this.onFocusChange}    
+                        style={(this.state.isFocusd) ? (styles.inputFocused) : (styles.inputStyle)}>
+                            <AntDesign name="mail" size={15} color="black" style={{opacity:0.7, padding:1}} />
+                            <TextInput 
+                                style={styles.inputText}
+                                name='userId'
+                                placeholder='Email'
+                                placeholderTextColor={'#000000'}
+                                onChangeText={text => this.setState({userId: text})}
 
-                <View style={styles.loginMenu}>
-                    <TouchableOpacity>
-                        <Text style={{fontSize:15}}>
-                          Facebook
-                        </Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity>
-                        <Text style={{fontSize:15}}>
-                          Google+
-                        </Text>
-                    </TouchableOpacity>
+                            />
+                        </View>
+        
+                        <View style={styles.inputStyle}>
+                            <AntDesign name="lock1" size={15} color="black" style={{opacity:0.7, padding:1}} />
+                            <TextInput 
+                                style={styles.inputText}
+                                name='password'
+                                placeholder='Password'
+                                placeholderTextColor={'#000000'}
+                                secureTextEntry={true}
+                                onChangeText={text => this.setState({password: text})}
+                            />
+                        </View>
+        
+                        <TouchableOpacity style={styles.btnLogin} onPress={_ => this.checkLogin()}>
+                            <Text style={{fontSize:15, color: '#fff5fe'}}>
+                                Get started
+                            </Text>
+                        </TouchableOpacity>
+                        
+                        <TouchableOpacity>
+                            <Text style={{fontSize:12, borderBottomWidth:1, marginBottom:30}}>
+                                비밀번호를 잃어버리셨나요?
+                            </Text>
+                        </TouchableOpacity>
+                    
+                        <View style = {styles.lineStyle} />
+        
+                        <View style={styles.loginMenu}>
+                            <TouchableOpacity>
+                                <Text style={{fontSize:15}}>
+                                  Facebook
+                                </Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity>
+                                <Text style={{fontSize:15}}>
+                                  Google+
+                                </Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
                 </View>
             </View>
-        </View>
-    </View>
-  );
+          );
+    }
+
+    linkToMeetUp = async () => {
+        let result = await WebBrowser.openBrowserAsync('https://reactnativeseoul.org/');
+        this.setState({ result });
+      };
+    linkToGitHub = async () => {
+        let result = await WebBrowser.openBrowserAsync('https://github.com/dooboolab');
+        this.setState({ result });
+      };
+    linkToYoutube = async () => {
+        let result = await WebBrowser.openBrowserAsync('https://www.youtube.com/channel/UCy0YwPrjRbcmb4A110xx4zg');
+        this.setState({ result });
+      };
+    linkToMedium = async () => {
+        let result = await WebBrowser.openBrowserAsync('https://medium.com/@dooboolab');
+        this.setState({ result });
+      };
 }
 
 const {width: WIDTH} = Dimensions.get('window');
@@ -144,6 +186,9 @@ const styles = StyleSheet.create({
         alignItems:'center',
         marginBottom: 20,
     },
+    inputFocused: {
+
+    },
     inputText: {
         flex: 1,
         width: WIDTH / 6,
@@ -151,7 +196,7 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
         marginLeft: 4,
         fontSize: 16,
-        opacity: 0.4,
+        opacity: 0.7,
     },
     btnLogin: {
         backgroundColor: '#05fbcb',

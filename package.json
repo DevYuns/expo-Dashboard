@@ -18,6 +18,7 @@
     "@react-navigation/native": "^5.3.0",
     "@react-navigation/web": "^1.0.0-alpha.9",
     "expo": "~37.0.3",
+    "expo-asset": "~8.1.4",
     "gitpkg": "^1.0.0-beta.2",
     "react": "~16.9.0",
     "react-dom": "~16.9.0",

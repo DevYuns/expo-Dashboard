@@ -1,13 +1,11 @@
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, Button} from 'react-native';
 import {DrawerNavigatorItems} from 'react-navigation-drawer';
 import { AntDesign } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 export default class Sidebar extends React.Component {
-    constructor(props) {
-        super(props);
-    }
 
     render() {
         return (
@@ -20,14 +18,14 @@ export default class Sidebar extends React.Component {
                             <Text style={{fontSize:22, color:'white', opacity:0.9}}>Dean</Text>
                         </View>
                     </View>
-                    <View>
+                    <TouchableOpacity onPress={_ => this.props.navigation.closeDrawer()}>
                         <Feather 
                             name="x" 
                             size={24} 
                             color="white" 
-                            style={{opacity:0.7, padding:5}}
+                            style={{opacity:0.7, padding:3}}
                         />
-                    </View>
+                    </TouchableOpacity>
                 </View>
 
                 <View>
@@ -51,7 +49,6 @@ const styles = StyleSheet.create({
         paddingTop: 25,
         paddingLeft: 20,
         paddingBottom: 15,
-
-    }
+    },
 
 });
