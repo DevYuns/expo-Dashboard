@@ -3,6 +3,7 @@ import { createStackNavigator } from 'react-navigation-stack';
 import {createAppContainer} from 'react-navigation';
 import Login from './src/screens/Login';
 import DrawerNavigation from './src/components/navigation/DrawerNavigation';
+import Test from './src/components/navigation/DrawerNavigation';
 
 const Route = createStackNavigator(
   {
@@ -12,9 +13,11 @@ const Route = createStackNavigator(
   Navigator: {
     screen: DrawerNavigation,
   },
+  test: {
+    screen: Test,
+  }
 },
 {
-  contentComponent: props => <DrawerNavigation {...props} />,
   defaultNavigationOptions: {
     header: null,
   }

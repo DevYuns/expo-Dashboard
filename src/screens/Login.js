@@ -15,18 +15,31 @@ export default class Home extends React.Component {
         isFocusd: false,
     }
 
-    onFocusChange = () => {
+    handleFocus = event => {
         this.setState({isFocusd: true});
+        if(this.props.onFocus) {
+            this.props.onFocus(event);
+        }
+    }
+
+    handleBlur = event => {
+        this.setState({isFocusd: false});
+        if(this.props.onBlur) {
+            this.props.onBlur(event);
+        }
     }
 
     checkLogin() {
         const {userId, password} = this.state;
         if(userId != '' && password != '') {
-            this.props.navigation.navigate('Navigator')
+            this.props.navigation.navigate('test')
         } else return alert('fail');
     }
 
     render() {
+        const{isFocusd} = this.state;
+        const {onFocus, onBlur, ...props} = this.props;
+
         return (
             <View style={{display:'flex', flexDirection:'row'}}>
                 
@@ -74,7 +87,8 @@ export default class Home extends React.Component {
                                 style={styles.inputText}
                                 name='userId'
                                 placeholder='Email'
-                                placeholderTextColor={'#000000'}
+                                selectionColor='red'
+                                underlineColor='red'
                                 onChangeText={text => this.setState({userId: text})}
 
                             />
@@ -86,7 +100,6 @@ export default class Home extends React.Component {
                                 style={styles.inputText}
                                 name='password'
                                 placeholder='Password'
-                                placeholderTextColor={'#000000'}
                                 secureTextEntry={true}
                                 onChangeText={text => this.setState({password: text})}
                             />
@@ -187,7 +200,11 @@ const styles = StyleSheet.create({
         marginBottom: 20,
     },
     inputFocused: {
-
+        display: 'flex', 
+        flexDirection:'row', 
+        justifyContent:'center', 
+        alignItems:'center',
+        marginBottom: 20,
     },
     inputText: {
         flex: 1,
